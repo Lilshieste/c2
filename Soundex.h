@@ -11,7 +11,7 @@
 class Soundex
 {
 public:
-   static const size_t MaxCodeLength{4};
+   static const size_t MaxCodeLength = 4;
 
    std::string encode(const std::string& word) const {
       return zeroPad(head(word) + encodedDigits(word));
@@ -27,14 +27,20 @@ private:
       return "";
    }
 
+   static std::unordered_map<char, std::string> createTestMap() {
+	   auto map = std::unordered_map<char, std::string>();
+	   map['b'] = "1";
+	   map['c'] = "2";
+	   map['d'] = "3";
+
+	   return map;
+   }
+
 // START:encodedDigits
    std::string encodedDigit(char letter) const {
 // START_HIGHLIGHT
-      const std::unordered_map<char,std::string> encodings {
-         {'b', "1"},
-         {'c', "2"},
-         {'d', "3"}
-      };
+	  const std::unordered_map<char,std::string> encodings = createTestMap();
+
       return encodings.find(letter)->second;
 // END_HIGHLIGHT
    }
