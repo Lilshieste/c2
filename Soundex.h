@@ -8,7 +8,7 @@ class Soundex
 {
 public:
 // START:MaxCodeLength
-   static const size_t MaxCodeLength{4};
+   static const size_t MaxCodeLength = 4;
    // ...
 // END:MaxCodeLength
 
