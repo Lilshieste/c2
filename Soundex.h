@@ -10,7 +10,10 @@
 class Soundex
 {
 public:
-   static const size_t MaxCodeLength{4};
+   static const size_t MaxCodeLength = 4;
+
+   Soundex() : NotADigit("*") {
+   }
 
 // START:impl
    std::string encode(const std::string& word) const {
@@ -22,21 +25,20 @@ public:
 
 // END:impl
    std::string encodedDigit(char letter) const {
-      const std::unordered_map<char, std::string> encodings {
-         {'b', "1"}, {'f', "1"}, {'p', "1"}, {'v', "1"},
-         {'c', "2"}, {'g', "2"}, {'j', "2"}, {'k', "2"}, {'q', "2"},
-                     {'s', "2"}, {'x', "2"}, {'z', "2"},
-         {'d', "3"}, {'t', "3"},
-         {'l', "4"},
-         {'m', "5"}, {'n', "5"},
-         {'r', "6"}
-      };
+      auto encodings = std::unordered_map<char, std::string>();
+      encodings['b'] = encodings['f'] = encodings['p'] = encodings['v'] = "1";
+      encodings['c'] = encodings['g'] = encodings['j'] = encodings['k'] = encodings['q'] = 
+                       encodings['s'] = encodings['x'] = encodings['z'] = "2";
+      encodings['d'] = encodings['t'] = "3";
+      encodings['l'] = "4";
+      encodings['m'] = encodings['n'] = "5";
+      encodings['r'] = "6";
       auto it = encodings.find(charutil::lower(letter));
       return it == encodings.end() ? NotADigit : it->second;
    }
 
 private:
-   const std::string NotADigit{"*"};
+   const std::string NotADigit;
 
 // START:impl
    std::string encodedDigits(const std::string& word) const {
