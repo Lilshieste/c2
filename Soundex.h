@@ -3,11 +3,15 @@
 
 #include <string>
 #include <unordered_map>
+#include <cctype>
 
 class Soundex
 {
 public:
-   static const size_t MaxCodeLength{4};
+   static const size_t MaxCodeLength = 4;
+
+   Soundex() : NotADigit("*") {
+   }
 
 // START:encode
    std::string encode(const std::string& word) const {
@@ -28,7 +32,7 @@ private:
 
 // START:encodedDigits
 // START_HIGHLIGHT
-   const std::string NotADigit{"*"};
+   const std::string NotADigit;
 // END_HIGHLIGHT
 
    std::string encodedDigits(const std::string& word) const {
@@ -61,18 +65,17 @@ private:
 public:
 // START:encodedDigits
    std::string encodedDigit(char letter) const {
-      const std::unordered_map<char, std::string> encodings {
-         {'b', "1"}, {'f', "1"}, {'p', "1"}, {'v', "1"},
+      auto encodings = std::unordered_map<char, std::string>();
+      encodings['b'] = encodings['f'] = encodings['p'] = encodings['v'] = "1";
          // ...
 // END:encodedDigits
-         {'c', "2"}, {'g', "2"}, {'j', "2"}, {'k', "2"}, {'q', "2"},
-                     {'s', "2"}, {'x', "2"}, {'z', "2"},
-         {'d', "3"}, {'t', "3"},
-         {'l', "4"},
-         {'m', "5"}, {'n', "5"},
-         {'r', "6"}
+      encodings['c'] = encodings['g'] = encodings['j'] = encodings['k'] = encodings['q'] = 
+                       encodings['s'] = encodings['x'] = encodings['z'] = "2";
+      encodings['d'] = encodings['t'] = "3";
+      encodings['l'] = "4";
+      encodings['m'] = encodings['n'] = "5";
+      encodings['r'] = "6";
 // START:encodedDigits
-      };
       auto it = encodings.find(letter);
 // START_HIGHLIGHT
       return it == encodings.end() ? NotADigit : it->second;
